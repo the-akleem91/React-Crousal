@@ -1,0 +1,147 @@
+import "./index.css";
+import { useState } from "react";
+
+export default function Crousal() {
+  const [cur, setCur] = useState(0);
+
+  function Handlenext() {
+    setCur((prevColor) => (prevColor === 2 ? 0 : prevColor + 1));
+    console.log(cur);
+  }
+  function handlePrev() {
+    setCur((prevColor) => (prevColor === 0 ? 2 : prevColor - 1));
+    console.log(cur);
+  }
+  return (
+    <div className="container">
+      <div
+        className="crousal"
+        style={{ transform: `translateX(-${cur * 100}%)` }}
+      >
+        <img src={"mountain.jpg"} alt="pic" />
+        <img src={"mountain2.jpg"} alt="pic" />
+        <img src={"mountain3.jpg"} alt="pic" />
+      </div>
+      <SvgLeft handlePrev={handlePrev} />
+      <SvgRight Handlenext={Handlenext} />
+      <div className="crousal-index">
+        {/* <Position key={0} cur={cur} />
+        <Position key={1} cur={cur} />
+        <Position key={2} cur={cur} /> */}
+      </div>
+    </div>
+  );
+}
+
+function Position({ cur, key }) {
+  const PositionStyle =
+    key === cur
+      ? {
+          height: "0.5rem",
+          width: "0.5rem",
+          backgroundColor: "black",
+          borderRadius: "50%",
+          backgroundColor: "white",
+          marginBottom: "0px",
+        }
+      : {
+          height: "0.5rem",
+          width: "0.5rem",
+          backgroundColor: "black",
+          borderRadius: "50%",
+          backgroundColor: "white",
+          marginBottom: "0px",
+        };
+  return <div style={PositionStyle}></div>;
+}
+function SvgLeft({ handlePrev }) {
+  return (
+    <svg
+      type="button"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="crousal-btn left"
+      onClick={handlePrev}
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M15.75 19.5L8.25 12l7.5-7.5"
+      />
+    </svg>
+  );
+}
+
+function SvgRight({ Handlenext }) {
+  return (
+    <svg
+      type="button"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="crousal-btn right"
+      onClick={Handlenext}
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M8.25 4.5l7.5 7.5-7.5 7.5"
+      />
+    </svg>
+  );
+}
+
+
+CSS File
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  overflow: hidden;
+  width: 100vw;
+}
+
+img {
+  height: calc(100vh - 3.2rem);
+  min-width: 100vw;
+  margin-top: 3.2rem;
+}
+.crousal {
+  display: flex;
+  position: relative;
+  transition: transform 0.5s ease-out;
+}
+
+.crousal-btn {
+  color: black;
+  position: absolute;
+  height: 48px;
+  width: 48px;
+  cursor: pointer;
+}
+
+.left {
+  top: 50%;
+  left: -2px;
+}
+.right {
+  top: 50%;
+  right: -2px;
+}
+
+.crousal-index {
+  gap: 1rem;
+  display: flex;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
